@@ -20,6 +20,7 @@ main() {
   echo "Parsing the repo list"
   while IFS= read -r repo
   do
+    echo "Repo: ${repo}"
     if release=$(curl -H "Authorization: Bearer $NPE_TOKEN" -fqs https://api.github.com/repos/${repo}/releases/latest)
     then
       tag="$(echo "$release" | jq -r '.tag_name')"

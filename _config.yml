@@ -1,0 +1,15 @@
+title: pkgs.lightningdevops
+email: mwy3510@users.noreply.github.com
+description: >- 
+  Repo holding binary builds from LightningDevOps projects
+baseurl: ""
+url: "https://pkgs.lightningdevops.com"
+github_username: mwy3510
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+exclude:
+  - tools/
+  - doc/

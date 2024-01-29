@@ -25,6 +25,7 @@ main() {
     then
       tag="$(echo "$release" | jq -r '.tag_name')"
       rpm_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith(".rpm")) | .name')"
+      rpm_file_id="$(echo "$release" | jq -r '.assets[] | select(.name | endswith(".rpm")) | .id')"
       deb_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith(".deb")) | .name')"
       echo "Parsing repo $repo at $tag"
       if [ -n "$rpm_file" ]
@@ -33,7 +34,7 @@ main() {
         mkdir -p _site/rpm
         pushd _site/rpm >/dev/null
         echo "Getting RPM"
-        wget --header "Authorization: token $NPE_TOKEN" -q "https://github.com/${repo}/releases/download/${tag}/${rpm_file}"
+        curl -O -J -L -H "Accept: application/octet-stream" "https://$NPE_TOKEN@api.github.com/repos/${repo}/releases/assets/$rpm_file_id"
         (
           if [ -n "$GPG_FINGERPRINT" ]
           then
